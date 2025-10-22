@@ -1,60 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1761085000428,
+  "lastUpdate": 1761121847588,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4bf8f7006dd81d6420368122563bc21cc295bc2a",
-          "message": "Merge pull request #253 from czlonkowski/fix/search-templates-metadata-timeout\n\nrefactor: enhance search_templates_by_metadata with production-ready improvements",
-          "timestamp": "2025-10-03T14:52:42+02:00",
-          "tree_id": "404bd1ce3b2156ced739a7ccf82f66a842d91f2f",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/4bf8f7006dd81d6420368122563bc21cc295bc2a"
-        },
-        "date": 1759496084803,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0191,
-            "range": "0.3128",
-            "unit": "ms",
-            "extra": "52360 ops/sec"
-          },
-          {
-            "name": "sample - array sorting - large",
-            "value": 3.4106,
-            "range": "0.5886",
-            "unit": "ms",
-            "extra": "293 ops/sec"
-          },
-          {
-            "name": "sample - string concatenation",
-            "value": 0.0047,
-            "range": "0.291",
-            "unit": "ms",
-            "extra": "213979 ops/sec"
-          },
-          {
-            "name": "sample - object creation",
-            "value": 0.0676,
-            "range": "0.4316",
-            "unit": "ms",
-            "extra": "14787 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -2004,6 +1952,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/32a25e2706d155f2ba22bc736e77d23998d2b79f"
         },
         "date": 1761085000021,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7300957d136cfa009e8a5610d741124a093dea5b",
+          "message": "chore: update n8n to v1.116.2 (#348)\n\n* docs: Update CLAUDE.md with development notes\n\n* chore: update n8n to v1.116.2\n\n- Updated n8n from 1.115.2 to 1.116.2\n- Updated n8n-core from 1.114.0 to 1.115.1\n- Updated n8n-workflow from 1.112.0 to 1.113.0\n- Updated @n8n/n8n-nodes-langchain from 1.114.1 to 1.115.1\n- Rebuilt node database with 542 nodes\n- Updated version to 2.20.7\n- Updated n8n version badge in README\n- All changes will be validated in CI with full test suite\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* fix: regenerate package-lock.json to sync with updated dependencies\n\nFixes CI failure caused by package-lock.json being out of sync with\nthe updated n8n dependencies.\n\n- Regenerated with npm install to ensure all dependency versions match\n- Resolves \"npm ci\" sync errors in CI pipeline\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* fix: align FTS5 tests with production boosting logic\n\nTests were failing because they used raw FTS5 ranking instead of the\nexact-match boosting logic that production uses. Updated both test files\nto replicate production search behavior from src/mcp/server.ts.\n\n- Updated node-fts5-search.test.ts to use production boosting\n- Updated database-population.test.ts to use production boosting\n- Both tests now use JOIN + CASE statement for exact-match prioritization\n\nThis makes tests more accurate and less brittle to FTS5 ranking changes.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* fix: prioritize exact matches in FTS5 search with case-insensitive comparison\n\nRoot cause: SQL ORDER BY was sorting by FTS5 rank first, then CASE statement.\nSince ranks are unique, the CASE boosting never applied. Additionally, the\nCASE statement used case-sensitive comparison which failed to match nodes\nlike \"Webhook\" when searching for \"webhook\".\n\nChanges:\n- Changed ORDER BY from \"rank, CASE\" to \"CASE, rank\" in production code\n- Added LOWER() for case-insensitive exact match detection\n- Updated both test files to match the corrected SQL logic\n- Exact matches now consistently rank first regardless of FTS5 score\n\nImpact:\n- Improves search quality by ensuring exact matches appear first\n- More efficient SQL (less JavaScript sorting needed)\n- Tests now accurately validate production search behavior\n- Fixes 2/705 failing integration tests\n\nVerified:\n- Both tests pass locally after fix\n- SQL query tested with SQLite CLI showing webhook ranks 1st\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* docs: update CHANGELOG with FTS5 search fix details\n\nAdded comprehensive documentation for the FTS5 search ranking bug fix:\n- Problem description with SQL examples showing wrong ORDER BY\n- Root cause analysis explaining why CASE statement never applied\n- Case-sensitivity issue details\n- Complete fix description for production code and tests\n- Impact section covering search quality, performance, and testing\n- Verified search results showing exact matches ranking first\n\nThis documents the critical bug fix that ensures exact matches\nappear first in search results (webhook, http, code, etc.) with\ncase-insensitive matching.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-10-22T10:28:32+02:00",
+          "tree_id": "3f5d714a6726e23e1907b560b8e8b2a1a408fecd",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/7300957d136cfa009e8a5610d741124a093dea5b"
+        },
+        "date": 1761121847169,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
