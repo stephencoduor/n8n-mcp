@@ -1,60 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762252526639,
+  "lastUpdate": 1762269350647,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "49757e3c22363f18eee95b2eb24324311f0d70b0",
-          "message": "Merge pull request #285 from czlonkowski/fix/version-extraction-and-typeversion-validation\n\nfix: correct version extraction and typeVersion validation for langchain nodes",
-          "timestamp": "2025-10-07T23:41:53+02:00",
-          "tree_id": "a2f18d7ed7a8f59d261c7ef436d6cf618d6f472f",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/49757e3c22363f18eee95b2eb24324311f0d70b0"
-        },
-        "date": 1759873428698,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0199,
-            "range": "0.2711",
-            "unit": "ms",
-            "extra": "50183 ops/sec"
-          },
-          {
-            "name": "sample - array sorting - large",
-            "value": 3.217,
-            "range": "1.3245999999999998",
-            "unit": "ms",
-            "extra": "311 ops/sec"
-          },
-          {
-            "name": "sample - string concatenation",
-            "value": 0.0046,
-            "range": "0.2717",
-            "unit": "ms",
-            "extra": "215056 ops/sec"
-          },
-          {
-            "name": "sample - object creation",
-            "value": 0.0671,
-            "range": "0.4048",
-            "unit": "ms",
-            "extra": "14898 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1584,6 +1532,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/65f51ad8b5f3f95fa752ea0eb597c903eb99e27f"
         },
         "date": 1762252526334,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a4ef1efaf87795bafda3e230ffb2c0b4e3fcb253",
+          "message": "fix: Gracefully handle FTS5 unavailability in sql.js fallback (#398)\n\nFixed critical startup crash when server falls back to sql.js adapter\ndue to Node.js version mismatches.\n\nProblem:\n- better-sqlite3 fails to load when Node runtime version differs from build version\n- Server falls back to sql.js (pure JS, no native dependencies)\n- Database health check crashed with \"no such module: fts5\"\n- Server exits immediately, preventing Claude Desktop connection\n\nSolution:\n- Wrapped FTS5 health check in try-catch block\n- Logs warning when FTS5 not available\n- Server continues with fallback search (LIKE queries)\n- Graceful degradation: works with any Node.js version\n\nImpact:\n- Server now starts successfully with sql.js fallback\n- Works with Node v20 (Claude Desktop) even when built with Node v22\n- Clear warnings about FTS5 unavailability\n- Users can choose: sql.js (slower, works everywhere) or rebuild better-sqlite3 (faster)\n\nFiles Changed:\n- src/mcp/server.ts: Added try-catch around FTS5 health check (lines 299-317)\n\nTesting:\n- ✅ Tested with Node v20.17.0 (Claude Desktop)\n- ✅ Tested with Node v22.17.0 (build version)\n- ✅ All 6 startup checkpoints pass\n- ✅ Database health check passes with warning\n\nFixes: Claude Desktop connection failures with Node.js version mismatches\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en",
+          "timestamp": "2025-11-04T16:14:16+01:00",
+          "tree_id": "dacb97a77111098208d181d2b2726235819bd78a",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/a4ef1efaf87795bafda3e230ffb2c0b4e3fcb253"
+        },
+        "date": 1762269350066,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
