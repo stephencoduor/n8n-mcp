@@ -193,17 +193,18 @@ export function cleanWorkflowForUpdate(workflow: Workflow): Partial<Workflow> {
       }
     }
 
-    // Only include settings if it has properties after filtering
-    // n8n API rejects empty settings objects
+    // n8n API requires settings to be present but rejects empty settings objects.
+    // If no valid properties remain after filtering, include minimal default settings.
     if (Object.keys(filteredSettings).length > 0) {
       cleanedWorkflow.settings = filteredSettings;
     } else {
-      delete cleanedWorkflow.settings;
+      // Provide minimal valid settings (executionOrder is always accepted)
+      cleanedWorkflow.settings = { executionOrder: 'v0' as const };
     }
   } else {
-    // No settings provided - remove the property entirely
-    // n8n API rejects empty settings objects
-    delete cleanedWorkflow.settings;
+    // No settings provided - include minimal default settings
+    // n8n API requires settings in workflow updates
+    cleanedWorkflow.settings = { executionOrder: 'v0' as const };
   }
 
   return cleanedWorkflow;
