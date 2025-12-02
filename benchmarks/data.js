@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1764624921501,
+  "lastUpdate": 1764717221678,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ab6b55469269ba789b27ab2b8b9fe8be835a8da9",
-          "message": "fix: Reduce validation false positives from 80% to 0% (#346)\n\n* fix: Reduce validation false positives from 80% to 0% on production workflows\n\nImplements code review fixes to eliminate false positives in n8n workflow validation:\n\n**Phase 1: Type Safety (expression-utils.ts)**\n- Added type predicate `value is string` to isExpression() for better TypeScript narrowing\n- Fixed type guard order in hasMixedContent() to check type before calling containsExpression()\n- Improved performance by replacing two includes() with single regex in containsExpression()\n\n**Phase 2: Regex Pattern (expression-validator.ts:217)**\n- Enhanced regex from /(?<!\\$|\\.)/ to /(?<![.$\\w['])...(?!\\s*[:''])/\n- Now properly excludes property access chains, bracket notation, and quoted strings\n- Eliminates false positives for valid n8n expressions\n\n**Phase 3: Error Messages (config-validator.ts)**\n- Enhanced JSON parse errors to include actual error details\n- Changed from generic message to specific error (e.g., \"Unexpected token }\")\n\n**Phase 4: Code Duplication (enhanced-config-validator.ts)**\n- Extracted duplicate credential warning filter into shouldFilterCredentialWarning() helper\n- Replaced 3 duplicate blocks with single DRY method\n\n**Phase 5: Webhook Validation (workflow-validator.ts)**\n- Extracted nested webhook logic into checkWebhookErrorHandling() helper\n- Added comprehensive JSDoc for error handling requirements\n- Improved readability by reducing nesting depth\n\n**Phase 6: Unit Tests (tests/unit/utils/expression-utils.test.ts)**\n- Created comprehensive test suite with 75 test cases\n- Achieved 100% statement/line coverage, 95.23% branch coverage\n- Covers all 5 utility functions with edge cases and integration scenarios\n\n**Validation Results:**\n- Tested on 7 production workflows + 4 synthetic tests\n- False positive rate: 80% → 0%\n- All warnings are now actionable and accurate\n- Expression-based URLs/JSON no longer trigger validation errors\n\nFixes #331\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* test: Skip moved responseNode validation tests\n\nSkip two tests in node-specific-validators.test.ts that expect\nvalidation functionality that was intentionally moved to\nworkflow-validator.ts in Phase 5.\n\nThe responseNode mode validation requires access to node-level\nonError property, which is not available at the node-specific\nvalidator level (only has access to config/parameters).\n\nTests skipped:\n- should error on responseNode without error handling\n- should not error on responseNode with proper error handling\n\nActual validation now performed by:\n- workflow-validator.ts checkWebhookErrorHandling() method\n\nFixes CI test failure where 1/143 tests was failing.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* chore: Bump version to 2.20.5 and update CHANGELOG\n\n- Version bumped from 2.20.4 to 2.20.5\n- Added comprehensive CHANGELOG entry documenting validation improvements\n- False positive rate reduced from 80% to 0%\n- All 7 phases of fixes documented with results and metrics\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
-          "timestamp": "2025-10-21T22:43:29+02:00",
-          "tree_id": "83b23d6a3ee1366580a4e638d31279473c62a848",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/ab6b55469269ba789b27ab2b8b9fe8be835a8da9"
-        },
-        "date": 1761079528600,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1542,6 +1511,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/ef9b6f634145fcb9434894c78ae7e082b9a88581"
         },
         "date": 1764624920817,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "527e9874ab6b26b3dbae131f5259f81bac1cd1ab",
+          "message": "chore: update n8n to 1.122.4 and remove ludwig's templates (v2.28.3) (#463)\n\n- Updated n8n from 1.121.2 to 1.122.4\n- Updated n8n-core from 1.120.1 to 1.121.1\n- Updated n8n-workflow from 1.118.1 to 1.119.1\n- Updated @n8n/n8n-nodes-langchain from 1.120.1 to 1.121.1\n- Rebuilt node database with 544 nodes (438 from n8n-nodes-base, 106 from @n8n/n8n-nodes-langchain)\n- Removed 7 templates from creator \"ludwig\" at author's request (IDs: 2795, 2816, 2825, 2850, 2869, 2939, 3847)\n- Updated README badge with new n8n version\n- Updated CHANGELOG with dependency changes\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-authored-by: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-12-03T00:11:41+01:00",
+          "tree_id": "72f7371af9598b14c1914c2b5a82b75d2b9d4851",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/527e9874ab6b26b3dbae131f5259f81bac1cd1ab"
+        },
+        "date": 1764717221232,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
