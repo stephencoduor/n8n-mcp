@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1765147874129,
+  "lastUpdate": 1765230996277,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5702a64a013871332618379aae08280ded4b9ec3",
-          "message": "fix: AI node connection validation in partial workflow updates (#357) (#358)\n\n* fix: AI node connection validation in partial workflow updates (#357)\n\nFix critical validation issue where n8n_update_partial_workflow incorrectly\nrequired 'main' connections for AI nodes that exclusively use AI-specific\nconnection types (ai_languageModel, ai_memory, ai_embedding, ai_vectorStore, ai_tool).\n\nProblem:\n- Workflows containing AI nodes could not be updated via n8n_update_partial_workflow\n- Validation incorrectly expected ALL nodes to have 'main' connections\n- AI nodes only have AI-specific connection types, never 'main'\n\nRoot Cause:\n- Zod schema in src/services/n8n-validation.ts defined 'main' as required field\n- Schema didn't support AI-specific connection types\n\nFixed:\n- Made 'main' connection optional in Zod schema\n- Added support for all AI connection types: ai_tool, ai_languageModel, ai_memory,\n  ai_embedding, ai_vectorStore\n- Created comprehensive test suite (13 tests) covering all AI connection scenarios\n- Updated documentation to clarify AI nodes don't require 'main' connections\n\nTesting:\n- All 13 new integration tests passing\n- Tested with actual workflow 019Vrw56aROeEzVj from issue #357\n- Zero breaking changes (making required fields optional is always safe)\n\nFiles Changed:\n- src/services/n8n-validation.ts - Fixed Zod schema\n- tests/integration/workflow-diff/ai-node-connection-validation.test.ts - New test suite\n- src/mcp/tool-docs/workflow_management/n8n-update-partial-workflow.ts - Updated docs\n- package.json - Version bump to 2.21.1\n- CHANGELOG.md - Comprehensive release notes\n\nCloses #357\n\n🤖 Generated with Claude Code (https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n* fix: Add missing id parameter in test file and JSDoc comment\n\nAddress code review feedback from PR #358:\n- Add 'id' field to all applyDiff calls in test file (fixes TypeScript errors)\n- Add JSDoc comment explaining why 'main' is optional in schema\n- Ensures TypeScript compilation succeeds\n\nChanges:\n- tests/integration/workflow-diff/ai-node-connection-validation.test.ts:\n  Added id parameter to all 13 test cases\n- src/services/n8n-validation.ts:\n  Added JSDoc explaining optional main connections\n\nTesting:\n- npm run typecheck: PASS ✅\n- npm run build: PASS ✅\n- All 13 tests: PASS ✅\n\n🤖 Generated with Claude Code (https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
-          "timestamp": "2025-10-24T00:11:35+02:00",
-          "tree_id": "19be7f8d1f13956150bd8d85b2a3e7f08ed5247d",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/5702a64a013871332618379aae08280ded4b9ec3"
-        },
-        "date": 1761257608680,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1540,6 +1509,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/560e0c5b86d5e44a1537b7c3299cdc5aff3f645e"
         },
         "date": 1765147873707,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "130dd44ea5e6172870a1d6e2dd2ab789452ea819",
+          "message": "chore: update n8n to 1.123.4 and bump version to 2.28.9 (#478)\n\n- Updated n8n from 1.122.4 to 1.123.4\n- Updated n8n-core from 1.121.1 to 1.122.1\n- Updated n8n-workflow from 1.119.1 to 1.120.0\n- Updated @n8n/n8n-nodes-langchain from 1.121.1 to 1.122.1\n- Rebuilt node database with 545 nodes (439 from n8n-nodes-base, 106 from @n8n/n8n-nodes-langchain)\n- Updated README badge with new n8n version\n- Updated CHANGELOG with dependency changes\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-authored-by: Romuald Członkowski <romualdczlonkowski@MacBook-Pro-Romuald.local>\nCo-authored-by: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-12-08T22:54:50+01:00",
+          "tree_id": "667d3a9dd9770565c0aa319255f0bf2110cbc2f5",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/130dd44ea5e6172870a1d6e2dd2ab789452ea819"
+        },
+        "date": 1765230995549,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
