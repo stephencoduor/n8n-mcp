@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1767857395925,
+  "lastUpdate": 1767874566962,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "99c5907b71a6c3228d345a2f0879cd893f30cd7e",
-          "message": "feat: enhance workflow mutation telemetry for better AI responses (#419)\n\n* feat: add comprehensive telemetry for partial workflow updates\n\nImplement telemetry infrastructure to track workflow mutations from\npartial update operations. This enables data-driven improvements to\npartial update tooling by capturing:\n\n- Workflow state before and after mutations\n- User intent and operation patterns\n- Validation results and improvements\n- Change metrics (nodes/connections modified)\n- Success/failure rates and error patterns\n\nNew Components:\n- Intent classifier: Categorizes mutation patterns\n- Intent sanitizer: Removes PII from user instructions\n- Mutation validator: Ensures data quality before tracking\n- Mutation tracker: Coordinates validation and metric calculation\n\nExtended Components:\n- TelemetryManager: New trackWorkflowMutation() method\n- EventTracker: Mutation queue management\n- BatchProcessor: Mutation data flushing to Supabase\n\nMCP Tool Enhancements:\n- n8n_update_partial_workflow: Added optional 'intent' parameter\n- n8n_update_full_workflow: Added optional 'intent' parameter\n- Both tools now track mutations asynchronously\n\nDatabase Schema:\n- New workflow_mutations table with 20+ fields\n- Comprehensive indexes for efficient querying\n- Supports deduplication and data analysis\n\nThis telemetry system is:\n- Privacy-focused (PII sanitization, anonymized users)\n- Non-blocking (async tracking, silent failures)\n- Production-ready (batching, retries, circuit breaker)\n- Backward compatible (all parameters optional)\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: correct SQL syntax for expression index in workflow_mutations schema\n\nThe expression index for significant changes needs double parentheses\naround the arithmetic expression to be valid PostgreSQL syntax.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: enable RLS policies for workflow_mutations table\n\nEnable Row-Level Security and add policies:\n- Allow anonymous (anon) inserts for telemetry data collection\n- Allow authenticated reads for data analysis and querying\n\nThese policies are required for the telemetry system to function\ncorrectly with Supabase, as the MCP server uses the anon key to\ninsert mutation data.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: reduce mutation auto-flush threshold from 5 to 2\n\nLower the auto-flush threshold for workflow mutations from 5 to 2 to ensure\nmore timely data persistence. Since mutations are less frequent than regular\ntelemetry events, a lower threshold provides:\n\n- Faster data persistence (don't wait for 5 mutations)\n- Better testing experience (easier to verify with fewer operations)\n- Reduced risk of data loss if process exits before threshold\n- More responsive telemetry for low-volume mutation scenarios\n\nThis complements the existing 5-second periodic flush and process exit\nhandlers, ensuring mutations are persisted promptly.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: improve mutation telemetry error logging and diagnostics\n\nChanges:\n- Upgrade error logging from debug to warn level for better visibility\n- Add diagnostic logging to track mutation processing\n- Log telemetry disabled state explicitly\n- Add context info (sessionId, intent, operationCount) to error logs\n- Remove 'await' from telemetry calls to make them truly non-blocking\n\nThis will help identify why mutations aren't being persisted to the\nworkflow_mutations table despite successful workflow operations.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* feat: enhance workflow mutation telemetry for better AI responses\n\nImprove workflow mutation tracking to capture comprehensive data that helps provide better responses when users update workflows. This enhancement collects workflow state, user intent, and operation details to enable more context-aware assistance.\n\nKey improvements:\n- Reduce auto-flush threshold from 5 to 2 for more reliable mutation tracking\n- Add comprehensive workflow and credential sanitization to mutation tracker\n- Document intent parameter in workflow update tools for better UX\n- Fix mutation queue handling in telemetry manager (flush now handles 3 queues)\n- Add extensive unit tests for mutation tracking and validation (35 new tests)\n\nTechnical changes:\n- mutation-tracker.ts: Multi-layer sanitization (workflow, node, parameter levels)\n- batch-processor.ts: Support mutation data flushing to Supabase\n- telemetry-manager.ts: Auto-flush mutations at threshold 2, track mutations queue\n- handlers-workflow-diff.ts: Track workflow mutations with sanitized data\n- Tests: 13 tests for mutation-tracker, 22 tests for mutation-validator\n\nThe intent parameter messaging emphasizes user benefit (\"helps to return better response\") rather than technical implementation details.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* chore: bump version to 2.22.16 with telemetry changelog\n\nUpdated package.json and package.runtime.json to version 2.22.16.\nAdded comprehensive CHANGELOG entry documenting workflow mutation\ntelemetry enhancements for better AI-powered workflow assistance.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* fix: resolve TypeScript lint errors in telemetry tests\n\nFixed type issues in mutation-tracker and mutation-validator tests:\n- Import and use MutationToolName enum instead of string literals\n- Fix ValidationResult.errors to use proper object structure\n- Add UpdateNodeOperation type assertion for operation with nodeName\n\nAll TypeScript errors resolved, lint now passes.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
-          "timestamp": "2025-11-13T14:21:51+01:00",
-          "tree_id": "d0347d8622a8e263f3a11f66ce4df4416c1b9e70",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/99c5907b71a6c3228d345a2f0879cd893f30cd7e"
-        },
-        "date": 1763040232425,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1530,6 +1499,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/28667736cd7aeca5e898c68406706990a72fcb20"
         },
         "date": 1767857395185,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "533b105f03ad68e137753bce561d3c1f85f36263",
+          "message": "feat: AI-powered documentation for community nodes (#530)\n\n* feat: add AI-powered documentation generation for community nodes\n\nAdd system to fetch README content from npm and generate structured\nAI documentation summaries using local Qwen LLM.\n\nNew features:\n- Database schema: npm_readme, ai_documentation_summary, ai_summary_generated_at columns\n- DocumentationGenerator: LLM integration with OpenAI-compatible API (Zod validation)\n- DocumentationBatchProcessor: Parallel processing with progress tracking\n- CLI script: generate-community-docs.ts with multiple modes\n- Migration script for existing databases\n\nnpm scripts:\n- generate:docs - Full generation (README + AI summary)\n- generate:docs:readme-only - Only fetch READMEs\n- generate:docs:summary-only - Only generate AI summaries\n- generate:docs:incremental - Skip nodes with existing data\n- generate:docs:stats - Show documentation statistics\n- migrate:readme-columns - Apply database migration\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\n\n* feat: expose AI documentation summaries in MCP get_node response\n\n- Add AI documentation fields to NodeRow interface\n- Update SQL queries in getNodeDocumentation() to fetch AI fields\n- Add safeJsonParse helper method\n- Include aiDocumentationSummary and aiSummaryGeneratedAt in docs response\n- Fix parseNodeRow to include npmReadme and AI summary fields\n- Add truncateArrayFields to handle LLM responses exceeding schema limits\n- Bump version to 2.33.0\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\n\n* test: add unit tests for AI documentation feature (100 tests)\n\nAdded comprehensive test coverage for the AI documentation feature:\n\n- server-node-documentation.test.ts: 18 tests for MCP getNodeDocumentation()\n  - AI documentation field handling\n  - safeJsonParse error handling\n  - Node type normalization\n  - Response structure validation\n\n- node-repository-ai-documentation.test.ts: 16 tests for parseNodeRow()\n  - AI documentation field parsing\n  - Malformed JSON handling\n  - Edge cases (null, empty, missing fields)\n\n- documentation-generator.test.ts: 66 tests (14 new for truncateArrayFields)\n  - Array field truncation\n  - Schema limit enforcement\n  - Edge case handling\n\nAll 100 tests pass with comprehensive coverage.\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\n\n* fix: add AI documentation fields to test mock data\n\nUpdated test fixtures to include the 3 new AI documentation fields:\n- npm_readme\n- ai_documentation_summary\n- ai_summary_generated_at\n\nThis fixes test failures where getNode() returns objects with these\nfields but test expectations didn't include them.\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\n\n* fix: increase CI threshold for database performance test\n\nThe 'should benefit from proper indexing' test was failing in CI with\nquery times of 104-127ms against a 100ms threshold. Increased threshold\nto 150ms to account for CI environment variability.\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Romuald Członkowski <romualdczlonkowski@MacBook-Pro-Romuald.local>\nCo-authored-by: Claude Opus 4.5 <noreply@anthropic.com>",
+          "timestamp": "2026-01-08T13:14:02+01:00",
+          "tree_id": "b9745fa72e076936efd46eca14c6334a027f1fea",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/533b105f03ad68e137753bce561d3c1f85f36263"
+        },
+        "date": 1767874566649,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
